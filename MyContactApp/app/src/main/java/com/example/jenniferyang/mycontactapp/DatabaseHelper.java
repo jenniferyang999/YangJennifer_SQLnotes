@@ -9,8 +9,8 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 9;
-    public static final String DATABASE_NAME = "Contact2018_6.db";
+    public static final int DATABASE_VERSION = 13;
+    public static final String DATABASE_NAME = "Contact2018_0.db";
     public static final String TABLE_NAME = "Contact2018_table";
     public static final String ID = "ID";
     public static final String COLUMN_NAME_CONTACT = "contact";
@@ -40,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         Log.d("MYCONTACTAPP", "DatabaseHelper: upgrading Database");
         db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 
     public boolean insertData(String name, String number, String address){
@@ -53,7 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         if (result == -1) {
-            Log.d("MYCONTACTAPP", "DatabaseHelper: Contact insert - FAILED");
+            Log.d("MYCONTACTAPP", "DatabaseHelper: Contact insert - F" +
+                    "AILED");
             return false;
         }
         else {
@@ -63,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllData(){
-                Log.d("MYCONTACTAPP", "DatabaseHelper: pulling all data records from db");
+        Log.d("MYCONTACTAPP", "DatabaseHelper: pulling all data records from db");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select *  from  " + TABLE_NAME, null);
         return res;
